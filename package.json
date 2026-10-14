@@ -1,9 +1,10 @@
 {
-  "name": "code-oss-dev",
+  "name": "magis-ide",
+  "desktopName": "magis-ide.desktop",
   "version": "1.134.0",
   "distro": "0a2adcd7a64dfe443b6122097cd88f5958c22147",
   "author": {
-    "name": "Microsoft Corporation"
+    "name": "Magis"
   },
   "license": "MIT",
   "main": "./out/main.js",
@@ -42,6 +43,7 @@
     "watch-clientd": "deemon npm run watch-client",
     "kill-watch-clientd": "deemon --kill npm run watch-client",
     "transpile-client": "node build/next/index.ts transpile",
+    "register-desktop-entry": "./scripts/register-desktop-entry.sh",
     "watch-client-transpile": "node build/next/index.ts transpile --watch",
     "watch-client-transpiled": "deemon npm run watch-client-transpile",
     "kill-watch-client-transpiled": "deemon --kill npm run watch-client-transpile",

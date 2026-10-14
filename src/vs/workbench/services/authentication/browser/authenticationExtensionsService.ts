@@ -449,7 +449,7 @@ export class AuthenticationExtensionsService extends Disposable implements IAuth
 		const providerRequests = this._signInRequestItems.get(providerId);
 		const signInRequestKey = isAuthenticationWwwAuthenticateRequest(scopeListOrRequest)
 			? `${scopeListOrRequest.wwwAuthenticate}:${scopeListOrRequest.fallbackScopes?.join(SCOPESLIST_SEPARATOR) ?? ''}`
-			: `${scopeListOrRequest.join(SCOPESLIST_SEPARATOR)}`;
+			: `${Array.isArray(scopeListOrRequest) ? scopeListOrRequest.join(SCOPESLIST_SEPARATOR) : (scopeListOrRequest ?? '')}`;
 		const extensionHasExistingRequest = providerRequests
 			&& providerRequests[signInRequestKey]
 			&& providerRequests[signInRequestKey].requestingExtensionIds.includes(extensionId);

@@ -26,6 +26,7 @@ export const dirs = [
 	'extensions/git-base',
 	'extensions/github',
 	'extensions/github-authentication',
+	'extensions/magis-authentication',
 	'extensions/grunt',
 	'extensions/gulp',
 	'extensions/html-language-features',

@@ -1,0 +1,70 @@
+{
+  "name": "magis-authentication",
+  "displayName": "Magis Authentication",
+  "description": "Magis central authentication provider for Magis IDE",
+  "version": "1.0.0",
+  "publisher": "magis",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "api": "none",
+  "extensionKind": [
+    "ui",
+    "workspace"
+  ],
+  "activationEvents": [],
+  "capabilities": {
+    "virtualWorkspaces": true,
+    "untrustedWorkspaces": {
+      "supported": "limited"
+    }
+  },
+  "contributes": {
+    "authentication": [
+      {
+        "id": "magis",
+        "label": "Magis Account"
+      }
+    ],
+    "configuration": {
+      "title": "Magis Authentication",
+      "properties": {
+        "magis.auth.url": {
+          "type": "string",
+          "default": "http://10.30.0.11:8001",
+          "scope": "application",
+          "markdownDescription": "URL de base du microservice d'authentification Magis (Test: `http://10.30.0.11:8001`, Prod: `https://id.ihela.bi`)."
+        },
+        "magis.auth.clientId": {
+          "type": "string",
+          "default": "",
+          "scope": "application",
+          "markdownDescription": "OAuth2 Client ID pour Magis Authentication. Peut être défini via la variable d'environnement `MAGIS_AUTH_CLIENT_ID`."
+        },
+        "magis.auth.clientSecret": {
+          "type": "string",
+          "default": "",
+          "scope": "application",
+          "markdownDescription": "OAuth2 Client Secret pour Magis Authentication. Peut être défini via la variable d'environnement `MAGIS_AUTH_CLIENT_SECRET`."
+        }
+      }
+    }
+  },
+  "main": "./out/extension.js",
+  "scripts": {
+    "compile": "gulp compile-extension:magis-authentication",
+    "watch": "gulp watch-extension:magis-authentication",
+    "vscode:prepublish": "npm run compile"
+  },
+  "devDependencies": {
+    "@types/node": "^24.13.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/magis/magis-ide.git"
+  }
+}

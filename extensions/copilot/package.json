@@ -3176,6 +3176,11 @@
         "title": "GitHub Copilot Chat",
         "id": "stable",
         "properties": {
+          "magis.ai.endpoint": {
+            "type": "string",
+            "default": "http://127.0.0.1:8000/v1",
+            "markdownDescription": "URL du serveur de modèles d'intelligence artificielle local de Magis (compatible OpenAI / vLLM). Exemple : `http://10.0.0.5:8000/v1`"
+          },
           "github.copilot.chat.backgroundAgent.enabled": {
             "type": "boolean",
             "default": true,

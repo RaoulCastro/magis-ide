@@ -335,6 +335,7 @@ const skippedExportMangledProjects = [
 	'configuration-editing',
 	'microsoft-authentication',
 	'github-authentication',
+	'magis-authentication',
 	'html-language-features/server',
 ];
 

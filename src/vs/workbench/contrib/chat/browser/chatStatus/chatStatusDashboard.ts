@@ -602,11 +602,11 @@ export class ChatStatusDashboard extends DomWidget {
 		} else if (newUser) {
 			descriptionText = localize('activateDescription', "Set up Copilot to use AI features.");
 		} else if (anonymousUser) {
-			descriptionText = localize('enableMoreDescription', "Sign in to enable more Copilot AI features.");
+			descriptionText = localize('enableMoreDescription', "Sign in to enable more Magis AI features.");
 		} else if (disabled) {
-			descriptionText = localize('enableDescription', "Enable Copilot to use AI features.");
+			descriptionText = localize('enableDescription', "Enable Magis AI to use AI features.");
 		} else {
-			descriptionText = localize('signInDescription', "Sign in to use GitHub Copilot AI features.");
+			descriptionText = localize('signInDescription', "Sign in to use Magis AI features.");
 		}
 
 		let buttonLabel: string;
@@ -617,7 +617,7 @@ export class ChatStatusDashboard extends DomWidget {
 		} else if (disabled) {
 			buttonLabel = localize('enableCopilotButton', "Enable AI Features");
 		} else {
-			buttonLabel = localize('signInToUseAIFeatures', "Sign in to use GitHub Copilot");
+			buttonLabel = localize('signInToUseAIFeatures', "Sign in to use Magis AI");
 		}
 
 		let commandId: string;

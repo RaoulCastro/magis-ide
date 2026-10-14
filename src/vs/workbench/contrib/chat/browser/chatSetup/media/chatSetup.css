@@ -20,7 +20,7 @@
 	}
 
 	.dialog-buttons-row > .dialog-buttons > .monaco-button.continue-button.default::before {
-		background-image: url('./github.svg');
+		background-image: url('./magis.svg');
 	}
 
 	.dialog-buttons-row > .dialog-buttons > .monaco-button.continue-button.google::before {

@@ -1,18 +1,18 @@
 {
-	"name": "Code - OSS",
-	"short_name": "Code- OSS",
+	"name": "Magis IDE",
+	"short_name": "Magis",
 	"start_url": "/",
 	"lang": "en-US",
 	"display": "standalone",
 	"display_override": ["window-controls-overlay"],
 	"icons": [
 		{
-			"src": "code-192.png",
+			"src": "magis-192.png",
 			"type": "image/png",
 			"sizes": "192x192"
 		},
 		{
-			"src": "code-512.png",
+			"src": "magis-512.png",
 			"type": "image/png",
 			"sizes": "512x512"
 		}

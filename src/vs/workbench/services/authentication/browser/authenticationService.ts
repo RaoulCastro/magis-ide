@@ -321,7 +321,7 @@ export class AuthenticationService extends Disposable implements IAuthentication
 					{ ...options }
 				);
 			}
-			return await authProvider.createSession([...scopeListOrRequest], { ...options });
+			return await authProvider.createSession([...(scopeListOrRequest ?? [])], { ...options });
 		} else {
 			throw new Error(`No authentication provider '${id}' is currently registered.`);
 		}

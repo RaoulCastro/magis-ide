@@ -54,7 +54,10 @@ if (args['sandbox'] &&
 }
 
 // Set userData path before app 'ready' event
-const userDataPath = getUserDataPath(args, product.nameShort ?? 'code-oss-dev');
+const userDataPath = getUserDataPath(args, product.nameShort ?? 'magis-ide-dev');
+if (process.platform === 'linux') {
+	app.setDesktopName(process.env['VSCODE_DEV'] ? `${product.applicationName}-dev.desktop` : `${product.applicationName}.desktop`);
+}
 if (process.platform === 'win32') {
 	const userDataUNCHost = getUNCHost(userDataPath);
 	if (userDataUNCHost) {

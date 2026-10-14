@@ -82,7 +82,7 @@ registerAction2(class extends Action2 {
 	constructor() {
 		super({
 			id: 'workbench.action.agenticSignIn',
-			title: localize2('signIn', "Sign in to use GitHub Copilot"),
+			title: localize2('signIn', "Sign in to use Magis AI"),
 			icon: Codicon.signIn,
 			menu: {
 				id: AccountMenu,

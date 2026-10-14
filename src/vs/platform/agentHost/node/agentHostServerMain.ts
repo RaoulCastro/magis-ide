@@ -35,26 +35,21 @@ import { InstantiationService } from '../../instantiation/common/instantiationSe
 import { ServiceCollection } from '../../instantiation/common/serviceCollection.js';
 import { registerAgentHostNetworkServices } from './agentHostBootstrap.js';
 import { BANG_COMMAND_PREFIX } from './agentHostBangCommand.js';
-import { CopilotAgent } from './copilot/copilotAgent.js';
+import { MagisAgent } from './magis/magisAgent.js';
 import { INetworkDiagnosticsService, NetworkDiagnosticsService } from './networkDiagnosticsService.js';
-import { IByokLmBridgeRegistry, NullByokLmBridgeRegistry } from './byokLmBridgeRegistry.js';
-import { IByokLmProxyService, NullByokLmProxyService } from './copilot/byokLmProxyService.js';
 import { WorktreeIsolation } from './shared/worktreeIsolation.js';
 import { CopilotApiService, ICopilotApiService } from './shared/copilotApiService.js';
-import { ClaudeAgent } from './claude/claudeAgent.js';
-import { ClaudeAgentSdkService, ClaudeSdkPackage, IClaudeAgentSdkService } from './claude/claudeAgentSdkService.js';
+import { ClaudeAgentSdkService, IClaudeAgentSdkService } from './claude/claudeAgentSdkService.js';
 import { ClaudeProxyService, IClaudeProxyService } from './claude/claudeProxyService.js';
-import { CodexAgent, CodexSdkPackage } from './codex/codexAgent.js';
 import { createCodexProviderConfiguration } from './codex/codexProviderConfiguration.js';
 import { CodexProxyService, ICodexProxyService } from './codex/codexProxyService.js';
 import { AgentSdkDownloader, IAgentSdkDownloader, type IAgentSdkDownloadProgress } from './agentSdkDownloader.js';
 import { IAgentHostOTelService } from '../common/otel/agentHostOTelService.js';
 import { AgentHostOTelService } from './otel/agentHostOTelService.js';
-import { AgentHostCodexEnabledConfigKey, platformRootSchema } from '../common/agentHostSchema.js';
 import { AgentModelRefreshScheduler, MODEL_REFRESH_INTERVAL_MS } from './agentModelRefreshScheduler.js';
 import { AgentService } from './agentService.js';
 import { IAgentHostStateManager } from './agentHostStateManager.js';
-import { AgentHostClaudeAgentEnabledEnvVar, AgentHostClaudeSdkRootEnvVar, AgentHostCodexAgentEnabledEnvVar, IAgentService, AgentHostCodexAgentSdkRootEnvVar, isAgentEnabled } from '../common/agentService.js';
+import { AgentHostClaudeSdkRootEnvVar, AgentHostCodexAgentSdkRootEnvVar, IAgentService } from '../common/agentService.js';
 import { IAgentConfigurationService } from './agentConfigurationService.js';
 import { IAgentHostGitHubEndpointService } from './agentHostGitHubEndpointService.js';
 import { IAgentHostCompletions } from './agentHostCompletions.js';
@@ -316,48 +311,18 @@ async function main(): Promise<void> {
 		// BYOK is unsupported in the remote agent host (no extension host runs
 		// next to it to serve the renderer LM API). Inject null implementations
 		// to satisfy CopilotAgent / CopilotSessionLauncher DI.
-		diServices.set(IByokLmBridgeRegistry, new NullByokLmBridgeRegistry());
-		diServices.set(IByokLmProxyService, new NullByokLmProxyService());
-		const copilotAgent = disposables.add(instantiationService.createInstance(CopilotAgent));
-		agentService.registerProvider(copilotAgent);
-		log('CopilotAgent registered');
-		// Claude and Codex providers are gated on two things:
-		//  1. The user-facing enable toggle (`chat.agentHost.<x>Agent.enabled`,
-		//     forwarded as an env var by the renderer-side starters; the remote
-		//     server reads the env directly). Claude defaults to on, Codex
-		//     defaults to off.
-		//  2. The SDK being reachable. Claude is a devDependency of this repo
-		//     so the bare-import path in `ClaudeAgentSdkService._loadSdk`
-		//     always succeeds in dev; in built/shipped server installs the
-		//     SDK comes from the CLI flag / env var dev override or a
-		//     `product.agentSdks.claude` entry. Codex is likewise a
-		//     devDependency, so `CodexAgent._resolveSdkRoot` resolves it from
-		//     `node_modules` in dev; built/shipped installs use the env-var
-		//     override or `product.agentSdks.codex`.
-		if (isAgentEnabled(process.env[AgentHostClaudeAgentEnabledEnvVar], true) && (!environmentService.isBuilt || agentSdkDownloader.isAvailable(ClaudeSdkPackage))) {
-			const claudeAgent = disposables.add(instantiationService.createInstance(ClaudeAgent));
-			agentService.registerProvider(claudeAgent);
-			log('ClaudeAgent registered');
-		}
-		if (!environmentService.isBuilt || agentSdkDownloader.isAvailable(CodexSdkPackage)) {
-			const agentConfigurationService = agentService.configurationService;
-			let codexRegistered = false;
-			const registerCodexIfEnabled = () => {
-				if (codexRegistered) {
-					return;
-				}
-				const enabledByEnv = isAgentEnabled(process.env[AgentHostCodexAgentEnabledEnvVar], false);
-				const enabledByRootConfig = agentConfigurationService.getRootValue(platformRootSchema, AgentHostCodexEnabledConfigKey) === true;
-				if (enabledByEnv || enabledByRootConfig) {
-					codexRegistered = true;
-					const codexAgent = disposables.add(instantiationService.createInstance(CodexAgent));
-					agentService.registerProvider(codexAgent);
-					log('CodexAgent registered');
-				}
-			};
-			registerCodexIfEnabled();
-			disposables.add(agentConfigurationService.onDidRootConfigChange(() => registerCodexIfEnabled()));
-		}
+		// Register ONLY Magis agent for Magis IDE — sole AI assistant
+		const magisBaseUrl = process.env.MAGIS_AGENT_BASE_URL || 'http://localhost:8787';
+		const magisAgent = disposables.add(new MagisAgent(
+			{
+				baseUrl: magisBaseUrl,
+				authToken: process.env.MAGIS_AGENT_API_KEY,
+			},
+			networkServices.requestService,
+			logService,
+		));
+		agentService.registerProvider(magisAgent);
+		log(`MagisAgent registered as sole provider with baseUrl: ${magisBaseUrl}`);
 	}
 
 	// Surface agent-SDK download progress to clients as generic `progress`

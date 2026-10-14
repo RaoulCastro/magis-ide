@@ -62,19 +62,19 @@ export function buildUnavailableStateItems(options: IBuildModelPickerItemsOption
 	if (setupRequired) {
 		const enabled = !!options.actions.onRequestSetup;
 		return [
-			{ kind: ActionListItemKind.Header, label: localize('chat.modelPicker.setupRequired', "Sign in to use Copilot") },
+			{ kind: ActionListItemKind.Header, label: localize('chat.modelPicker.setupRequired', "Sign in to use Magis AI") },
 			{
 				item: {
 					id: SETUP_REQUIRED_SIGN_IN_ACTION_ID,
 					enabled,
 					checked: false,
 					class: undefined,
-					tooltip: localize('chat.modelPicker.setupRequired.signInTooltip', "Sign in to GitHub Copilot to choose a model."),
-					label: localize('chat.modelPicker.setupRequired.signIn', "Sign in to use Copilot..."),
+					tooltip: localize('chat.modelPicker.setupRequired.signInTooltip', "Sign in to Magis AI to choose a model."),
+					label: localize('chat.modelPicker.setupRequired.signIn', "Sign in to use Magis AI..."),
 					run: () => options.actions.onRequestSetup?.(),
 				},
 				kind: ActionListItemKind.Action,
-				label: localize('chat.modelPicker.setupRequired.signIn', "Sign in to use Copilot..."),
+				label: localize('chat.modelPicker.setupRequired.signIn', "Sign in to use Magis AI..."),
 				group: { title: '', icon: ThemeIcon.fromId(Codicon.signIn.id) },
 				disabled: !enabled,
 				hideIcon: false,
@@ -93,7 +93,7 @@ export function buildUnavailableStateItems(options: IBuildModelPickerItemsOption
 		? new MarkdownString(localize('chat.modelPicker.upgradeLink', "[Upgrade](command:workbench.action.chat.upgradePlan \" \")"), { isTrusted: true })
 		: undefined;
 	const hover = canUpgrade ? new MarkdownString('', { isTrusted: true, supportThemeIcons: true }) : undefined;
-	hover?.appendMarkdown(localize('chat.modelPicker.upgradeHover', "[Upgrade to GitHub Copilot Pro](command:workbench.action.chat.upgradePlan \" \") to use the best models."));
+	hover?.appendMarkdown(localize('chat.modelPicker.upgradeHover', "[Upgrade to Magis AI Pro](command:workbench.action.chat.upgradePlan \" \") to use the best models."));
 	return [{
 		item: {
 			id: 'noModels',

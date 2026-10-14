@@ -49,3 +49,31 @@ dist
 .github/prompts/*.local.prompt.md
 .agents/skills/.local/
 .github/skills/.local/
+
+# Local secrets and environment files (share .env.example instead)
+.env
+.env.local
+.env.*.local
+*.local.json
+*.local.ts
+*.local.js
+
+# Local build / dev artifacts
+out/
+out-vscode/
+out-server/
+out-editor/
+out-build/
+out-test/
+out-nls/
+out-docs/
+*.tsbuildinfo
+
+# Local config and tooling state
+.config/
+.kilo/
+.claude/settings.local.json
+
+# Large local binaries and test artifacts
+*.tar.gz
+test-magis.png

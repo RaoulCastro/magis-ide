@@ -1,0 +1,111 @@
+{
+  "name": "magis-chat",
+  "displayName": "Magis AI Assistant",
+  "description": "Magis Agent Service integration for Magis IDE",
+  "version": "1.0.0",
+  "publisher": "magis",
+  "id": "magis.magis-chat",
+  "engines": {
+    "vscode": "^1.134.0"
+  },
+  "categories": [
+    "AI",
+    "Chat"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "enabledApiProposals": [
+    "agentSessionsWorkspace",
+    "agentsWindowConfiguration",
+    "chatHooks",
+    "defaultChatParticipant",
+    "chatParticipantPrivate"
+  ],
+  "main": "./out/extension.js",
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.134.0",
+    "typescript": "^5.7.2"
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "magis.signIn",
+        "title": "Se connecter",
+        "category": "Magis"
+      },
+      {
+        "command": "magis.newChat",
+        "title": "Nouvelle conversation",
+        "category": "Magis"
+      }
+    ],
+    "chatParticipants": [
+      {
+        "id": "magis",
+        "name": "Magis",
+        "isDefault": true,
+        "commands": [
+          {
+            "name": "new",
+            "description": "Démarrer une nouvelle conversation"
+          },
+          {
+            "name": "help",
+            "description": "Afficher l'aide Magis"
+          },
+          {
+            "name": "explain",
+            "description": "Expliquer le code sélectionné"
+          },
+          {
+            "name": "fix",
+            "description": "Corriger les problèmes dans le code"
+          },
+          {
+            "name": "review",
+            "description": "Réviser les changements de code"
+          },
+          {
+            "name": "test",
+            "description": "Générer des tests unitaires"
+          },
+          {
+            "name": "refactor",
+            "description": "Refactoriser le code sélectionné"
+          }
+        ]
+      }
+    ],
+    "configuration": {
+      "title": "Magis Agent",
+      "properties": {
+        "magis.baseUrl": {
+          "type": "string",
+          "default": "http://localhost:8787",
+          "description": "Base URL of the Magis Agent Service"
+        },
+        "magis.vllmUrl": {
+          "type": "string",
+          "default": "https://ia.magis.bi/v1",
+          "description": "vLLM / LiteLLM server URL"
+        },
+        "magis.model": {
+          "type": "string",
+          "default": "qwen-code",
+          "description": "Model name to use"
+        },
+        "magis.autoApproveReads": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically approve file reading permissions"
+        }
+      }
+    }
+  }
+}

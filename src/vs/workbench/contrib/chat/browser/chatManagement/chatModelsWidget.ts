@@ -221,8 +221,8 @@ export function buildAddModelsDropdownActions(
 	const actions: IAction[] = [];
 	if (runCopilotSignInAction) {
 		actions.push(toAction({
-			id: 'signIn-github-copilot',
-			label: localize('models.signInGitHubCopilot', "GitHub Copilot"),
+			id: 'signIn-magis-ai',
+			label: localize('models.signInGitHubCopilot', "Magis AI"),
 			run: async () => {
 				await runCopilotSignInAction();
 			},

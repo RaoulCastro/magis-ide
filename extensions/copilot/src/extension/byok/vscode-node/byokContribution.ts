@@ -22,6 +22,7 @@ import { OllamaLMProvider } from './ollamaProvider';
 import { OAIBYOKLMProvider } from './openAIProvider';
 import { OpenRouterLMProvider } from './openRouterProvider';
 import { XAIBYOKLMProvider } from './xAIProvider';
+import { MagisLMProvider } from './magisProvider';
 
 export class BYOKContrib extends Disposable implements IExtensionContribution {
 	public readonly id: string = 'byok-contribution';
@@ -52,8 +53,10 @@ export class BYOKContrib extends Disposable implements IExtensionContribution {
 		const gemini = instantiationService.createInstance(GeminiNativeBYOKLMProvider, undefined, this._byokStorageService);
 		const xai = instantiationService.createInstance(XAIBYOKLMProvider, {}, this._byokStorageService);
 		const openai = instantiationService.createInstance(OAIBYOKLMProvider, {}, this._byokStorageService);
+		const magis = instantiationService.createInstance(MagisLMProvider, {}, this._byokStorageService);
 
 		this._providers.set(OllamaLMProvider.providerId, instantiationService.createInstance(OllamaLMProvider, this._byokStorageService));
+		this._providers.set(MagisLMProvider.providerId, magis);
 		this._providers.set(AnthropicLMProvider.providerId, anthropic);
 		this._providers.set(GeminiNativeBYOKLMProvider.providerId, gemini);
 		this._providers.set(XAIBYOKLMProvider.providerId, xai);

@@ -136,6 +136,14 @@ export const AgentHostCodexAgentEnabledSettingId = 'chat.agentHost.codexAgent.en
 export const AgentHostByokModelsEnabledSettingId = 'chat.agentHost.byokModels.enabled';
 
 /**
+ * Configuration key controlling whether the Magis provider is registered in
+ * the agent host process for Magis-Agent integration. When `true` (the default),
+ * the agent host registers the Magis provider as the default AI assistant for
+ * Magis IDE. The agent host process must be restarted for changes to take effect.
+ */
+export const AgentHostMagisEnabledSettingId = 'chat.agentHost.magis.enabled';
+
+/**
  * Optional override that points at an **SDK root directory** containing a
  * `node_modules/@anthropic-ai/claude-agent-sdk` subtree. When set, the agent
  * host loads the Claude SDK from that path instead of the bare import (which
